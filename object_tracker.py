@@ -15,10 +15,10 @@ GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 
 # importing path to the video
-path = os.path.join('.', 'data', "trafficvid.mp4")
+path = os.path.join('.', 'data', "vid1.mp4")
 
 # location to saved video output
-video_out = os.path.join('.', 'output.mp4')
+video_out = os.path.join('.', 'tracker_output.mp4')
 
 # initialize the video capture object
 cap = cv2.VideoCapture(path)
@@ -31,15 +31,20 @@ frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 # GETTING THE FRAMES PER SECOND(cv2.CAP_PROP_FPS)
 
 # Video writer is used to define location for saved video output
+
+# noinspection PyTypeChecker
 writer = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), int(cap.get(cv2.CAP_PROP_FPS)),
                          (frame_width, frame_height))
 
-model_path = os.path.join('.', 'model', 'best.pt')  # -- >haven't tested with this yet so do not uncomment
-
+model_path = os.path.join('.', 'Models', 'vehicle_detect.pt')  # -- >haven't tested with this yet so do not uncomment
 # load the custom YOLOv8n model with saved weights or use pretrained models
 model = YOLO(model_path)
 
+# model = YOLO('yolov8n.pt')
+
 # initialize tracker
+# max-age is used to determine how many frames a track can be lost before its deleted
+
 tracker = DeepSort(max_age=50)
 
 # list containing 10 completely random colors
@@ -67,7 +72,7 @@ while True:
 
     # loop over the detections
 
-    # unwrapping the list of detections
+    # unwrapping the list of detections i.e. recall its 1 frame per time
     for result in results:
         # detections = []
         for r in result.boxes.data.tolist():
@@ -93,7 +98,7 @@ while True:
             class_id = int(class_id)
 
             # now we have unwrapped the detections, we need to call deep-sort
-            detections.append([x1, y1, x2 - x1, y2 - y1, confidence, class_id])
+            detections.append([[x1, y1, x2, y2], confidence, class_id])
 
     ######################################
     # TRACKING
