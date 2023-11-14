@@ -42,18 +42,29 @@ def write_csv(results, output_path):
                             f.write('{},{},{},{},{},{},{}\n'.format(frame_nmr,
                                                                     vehicle_id,
                                                                     '[{} {} {} {}]'.format(
-                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][0],
-                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][1],
-                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][2],
-                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][3]),
+                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][
+                                                                            0],
+                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][
+                                                                            1],
+                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][
+                                                                            2],
+                                                                        results[frame_nmr][vehicle_id]['car']['bbox'][
+                                                                            3]),
                                                                     '[{} {} {} {}]'.format(
-                                                                        results[frame_nmr][vehicle_id]['license_plate']['bbox'][0],
-                                                                        results[frame_nmr][vehicle_id]['license_plate']['bbox'][1],
-                                                                        results[frame_nmr][vehicle_id]['license_plate']['bbox'][2],
-                                                                        results[frame_nmr][vehicle_id]['license_plate']['bbox'][3]),
-                                                                    results[frame_nmr][vehicle_id]['license_plate']['bbox_score'],
-                                                                    results[frame_nmr][vehicle_id]['license_plate']['text'],
-                                                                    results[frame_nmr][vehicle_id]['license_plate']['text_score'])
+                                                                        results[frame_nmr][vehicle_id]['license_plate'][
+                                                                            'bbox'][0],
+                                                                        results[frame_nmr][vehicle_id]['license_plate'][
+                                                                            'bbox'][1],
+                                                                        results[frame_nmr][vehicle_id]['license_plate'][
+                                                                            'bbox'][2],
+                                                                        results[frame_nmr][vehicle_id]['license_plate'][
+                                                                            'bbox'][3]),
+                                                                    results[frame_nmr][vehicle_id]['license_plate'][
+                                                                        'bbox_score'],
+                                                                    results[frame_nmr][vehicle_id]['license_plate'][
+                                                                        'text'],
+                                                                    results[frame_nmr][vehicle_id]['license_plate'][
+                                                                        'text_score'])
                                     )
         f.close()
 
@@ -61,6 +72,7 @@ def write_csv(results, output_path):
 def license_complies_format(text):
     """
     Check if the license plate text complies with the required format.
+    The kenyan license plate has the first 3 as capital letters then 3 number and lastly a letter - cars
 
     Args:
         text (str): License plate text.
@@ -72,12 +84,12 @@ def license_complies_format(text):
         return False
 
     if (text[0] in string.ascii_uppercase or text[0] in dict_int_to_char.keys()) and \
-       (text[1] in string.ascii_uppercase or text[1] in dict_int_to_char.keys()) and \
-       (text[2] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[2] in dict_char_to_int.keys()) and \
-       (text[3] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[3] in dict_char_to_int.keys()) and \
-       (text[4] in string.ascii_uppercase or text[4] in dict_int_to_char.keys()) and \
-       (text[5] in string.ascii_uppercase or text[5] in dict_int_to_char.keys()) and \
-       (text[6] in string.ascii_uppercase or text[6] in dict_int_to_char.keys()):
+            (text[1] in string.ascii_uppercase or text[1] in dict_int_to_char.keys()) and \
+            (text[2] in string.ascii_uppercase or text[1] in dict_int_to_char.keys()) and \
+            (text[3] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[2] in dict_char_to_int.keys()) and \
+            (text[4] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[3] in dict_char_to_int.keys()) and \
+            (text[5] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[3] in dict_char_to_int.keys()) and \
+            (text[6] in string.ascii_uppercase or text[6] in dict_int_to_char.keys()):
         return True
     else:
         return False
@@ -85,7 +97,8 @@ def license_complies_format(text):
 
 def format_license(text):
     """
-    Format the license plate text by converting characters using the mapping dictionaries.
+    Format the license plate text by converting characters using the mapping dictionaries
+    in the beginning of the script
 
     Args:
         text (str): License plate text.
@@ -93,6 +106,9 @@ def format_license(text):
     Returns:
         str: Formatted license plate text.
     """
+
+    # We go through each char one by one and confirm that the format is okay, if not we replace
+    # the char with the correct one e.g. the number 5 and S
     license_plate_ = ''
     mapping = {0: dict_int_to_char, 1: dict_int_to_char, 4: dict_int_to_char, 5: dict_int_to_char, 6: dict_int_to_char,
                2: dict_char_to_int, 3: dict_char_to_int}
@@ -119,10 +135,14 @@ def read_license_plate(license_plate_crop):
     detections = reader.readtext(license_plate_crop)
 
     for detection in detections:
+        # bbox-bounding box of plate, text - the text/characters, score - confidence of the detection i.e. license plate
         bbox, text, score = detection
 
+        # converting the text to uppercase then eliminating whitespaces
         text = text.upper().replace(' ', '')
 
+        # Here we check if the text complies with the standard format then format if necessary
+        # and return the formatted text and confidence score
         if license_complies_format(text):
             return format_license(text), score
 
@@ -140,20 +160,22 @@ def get_vehicle(license_plate, vehicle_track_ids):
     Returns:
         tuple: Tuple containing the vehicle bbox/coordinates (x1, y1, x2, y2) and ID.
     """
-    # unwrapping the license plate detection
+    # unwrapping the license plate detections
     x1, y1, x2, y2, score, class_id = license_plate
 
     foundit = False
     for j in range(len(vehicle_track_ids)):
         xcar1, ycar1, xcar2, ycar2, vehicle_id = vehicle_track_ids[j]
-        # Recall: x1 is vehicle coordinate and xcar1 is license plate coordinate of that specific vehicle.
+        # Recall: xcar1 is vehicle coordinate and x1 is license plate coordinate of that specific vehicle.
 
         if x1 > xcar1 and y1 > ycar1 and x2 < xcar2 and y2 < ycar2:
-            car_indx = j
+            vehicle_idx = j
             foundit = True
             break
-
+    # if we are able to confirm that a license plate does belong to a particular vehicle
+    # then return the tracks of the vehicle i.e. bbox and track id else return -1(Null)
     if foundit:
-        return vehicle_track_ids[car_indx]
+        return vehicle_track_ids[vehicle_idx]
+    else:
 
-    return -1, -1, -1, -1, -1
+        return -1, -1, -1, -1, -1

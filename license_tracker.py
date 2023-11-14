@@ -1,11 +1,12 @@
 from ultralytics import YOLO
 import cv2
 import os
+import datetime
 from deep_sort_realtime.deepsort_tracker import DeepSort
 from helper import get_vehicle, read_license_plate, write_csv
 
 # define some constants
-CONFIDENCE_THRESHOLD = 0.8
+CONFIDENCE_THRESHOLD = 0.6
 GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 
@@ -111,6 +112,14 @@ while ret and frame_nmr < 10:
         for license_plate in license_plates.boxes.data.tolist():
             # unwrapping the detections
             x1, y1, x2, y2, score, class_id = license_plate
+
+            # extract the confidence (i.e., probability) associated with the prediction
+            confidence = score
+
+            # filter out weak detections by ensuring the
+            # confidence is greater than the minimum confidence
+            if float(confidence) < CONFIDENCE_THRESHOLD:
+                continue
 
             # Assign a license plate to each detected vehicle
             # NOTE: At this point we have detected all vehicles in a frame and license plates as well
