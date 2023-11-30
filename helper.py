@@ -165,7 +165,16 @@ def get_vehicle(license_plate, vehicle_track_ids):
 
     foundit = False
     for j in range(len(vehicle_track_ids)):
-        xcar1, ycar1, xcar2, ycar2, vehicle_id = vehicle_track_ids[j]
+        vehicle_id, xcar1, ycar1, xcar2, ycar2 = vehicle_track_ids[j]
+        # track = vehicle_track_ids[j]  # Assuming vehicle_track_ids is a list of Track objects
+        # xcar1, ycar1, xcar2, ycar2 = track.to_ltrb()  # Accessing bounding box coordinates
+        # vehicle_id = track.track_id  # Accessing the track ID
+
+        # xcar1 = int(xcar1)
+        # ycar1 = int(ycar1)
+        # xcar2 = int(xcar2)
+        # ycar2 = int(ycar2)
+
         # Recall: xcar1 is vehicle coordinate and x1 is license plate coordinate of that specific vehicle.
 
         if x1 > xcar1 and y1 > ycar1 and x2 < xcar2 and y2 < ycar2:
@@ -177,5 +186,4 @@ def get_vehicle(license_plate, vehicle_track_ids):
     if foundit:
         return vehicle_track_ids[vehicle_idx]
     else:
-
         return -1, -1, -1, -1, -1

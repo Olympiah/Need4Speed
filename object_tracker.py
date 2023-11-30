@@ -10,7 +10,7 @@ from deep_sort_realtime.deepsort_tracker import DeepSort
 
 
 # define some constants
-CONFIDENCE_THRESHOLD = 0.8
+CONFIDENCE_THRESHOLD = 0.6
 GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 
@@ -116,13 +116,16 @@ while True:
 
         # get the track id and the bounding box
         track_id = track.track_id
+
+        # Gets current position in bounding box format `(min x, miny, max x, max y)`.
         ltrb = track.to_ltrb()
 
         x1, y1, x2, y2 = int(ltrb[0]), int(ltrb[1]), int(ltrb[2]), int(ltrb[3])
         # draw the bounding box and the track id
 
+        # The bbox rectangle
         cv2.rectangle(frame, (x1, y1), (x2, y2), GREEN, 2)
-
+        # The rectangle around the vehicle ids
         cv2.rectangle(frame, (x1, y1 - 20), (x1 + 20, y1), GREEN, -1)
 
         cv2.putText(frame, str(track_id), (x1 + 5, y1 - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.5, WHITE, 2)

@@ -1,6 +1,6 @@
-import ast
+# import ast
 
-import cv2
+# import cv2
 # import numpy as np
 # import pandas as pd
 #
@@ -28,7 +28,7 @@ import cv2
 # results = pd.read_csv('./test_interpolated.csv')
 #
 # # load video
-# video_path = 'sample.mp4'
+# video_path = 'vid1.mp4'
 # cap = cv2.VideoCapture(video_path)
 #
 # # noinspection PyTypeChecker
