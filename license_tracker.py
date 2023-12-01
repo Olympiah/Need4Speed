@@ -34,6 +34,18 @@ video_out = os.path.join('.', 'tracker_output.mp4')
 cap = cv2.VideoCapture(path)
 
 # vehicle_class_idx = [0, 1, 2, 3, 4, 5, 6]
+# Getting frame width n height of the video
+frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+# initialize the video writer object
+# GETTING THE FRAMES PER SECOND(cv2.CAP_PROP_FPS)
+
+# Video writer is used to define location for saved video output
+
+# noinspection PyTypeChecker
+writer = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), int(cap.get(cv2.CAP_PROP_FPS)),
+                         (frame_width, frame_height))
 
 # read the frames
 frame_nmr = -1
@@ -146,48 +158,48 @@ while ret and frame_nmr < 10:
 
             # FOR TESTING TO SEE IF LICENSE PLATE IS WORKING
             # The bbox rectangle
-#             cv2.rectangle(frame, (x1, y1), (x2, y2), GREEN, 2)
-#
-#         # show the frame to our screen
-#         cv2.imshow("Frame", frame)
-#         writer.write(frame)
-#
-#         if cv2.waitKey(1) == ord("q"):
-#             break
-#
-# cap.release()
-# writer.release()
-# cv2.destroyAllWindows()
+            cv2.rectangle(frame, (x1, y1), (x2, y2), GREEN, 2)
+
+        # show the frame to our screen
+        cv2.imshow("Frame", frame)
+        writer.write(frame)
+
+        if cv2.waitKey(1) == ord("q"):
+            break
+
+cap.release()
+writer.release()
+cv2.destroyAllWindows()
 
             # Assign a license plate to each detected vehicle
             # NOTE: At this point we have detected all vehicles in a frame and license plates as well
 
             # Return is vehicle coordinates/bbox and track_id
-            xcar1, ycar1, xcar2, ycar2, vehicle_id = get_vehicle(license_plate, tracks)
-
-            # If we have associated a vehicle id to a license plate
-            if vehicle_id != -1:
-
-                # crop license plate- wth license plate coordinates
-                # getting the license plate alone yani
-                license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
-
-                ######################################
-                # PROCESSING LICENSE PLATE
-                ######################################
-
-                # Converting the license plate to a grayscale image
-                license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
-                # If the pixel value is smaller than the threshold, it is set to 0, otherwise it is set to a maximum
-                # value. The output is what we feed to the OCR
-
-                _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
-
-                # Visualizing both images
-                cv2.imshow('Cropped license plate', license_plate_crop)
-                cv2.imshow('Threshold plate', license_plate_crop_thresh)
-
-                cv2.waitKey(0)
+            # xcar1, ycar1, xcar2, ycar2, vehicle_id = get_vehicle(license_plate, tracks)
+            #
+            # # If we have associated a vehicle id to a license plate
+            # if vehicle_id != -1:
+            #
+            #     # crop license plate- wth license plate coordinates
+            #     # getting the license plate alone yani
+            #     license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
+            #
+            #     ######################################
+            #     # PROCESSING LICENSE PLATE
+            #     ######################################
+            #
+            #     # Converting the license plate to a grayscale image
+            #     license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
+            #     # If the pixel value is smaller than the threshold, it is set to 0, otherwise it is set to a maximum
+            #     # value. The output is what we feed to the OCR
+            #
+            #     _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
+            #
+            #     # Visualizing both images
+            #     cv2.imshow('Cropped license plate', license_plate_crop)
+            #     cv2.imshow('Threshold plate', license_plate_crop_thresh)
+            #
+            #     cv2.waitKey(0)
 
 #                 # Reading the license plate number
 #                 license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_thresh)
