@@ -1,8 +1,8 @@
 # EYESPEED
 This is a real-time vehicle speed estimation system built using Object Detection and Object Tracking 
 
-<img src="images/screenshot1.png" alt="Screenshot of the application" width="500"/>
-<img src="images/screenshot2.png" alt="Screenshot of the application" width="500"/>
+<img src="images/Screenshot1.png" alt="Screenshot of the application" width="500"/>
+<img src="images/Screenshot2.png" alt="Screenshot of the application" width="500"/>
 
 ## Overview
 This project was divided into 4 main parts i.e.
