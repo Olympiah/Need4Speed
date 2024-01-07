@@ -58,4 +58,4 @@ The tracking object from the tracker was also useful in speed estimation. The ou
   
    Traffic videos in Kenyan roads - https://drive.google.com/drive/folders/1-7KyU6zxIZAVlSHIgbPYHl3L3GOn1Lh_?usp=drive_link
 
-  ## Screenshots
+  ## Screenshot
