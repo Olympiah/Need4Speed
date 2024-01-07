@@ -187,3 +187,50 @@ def get_vehicle(license_plate, vehicle_track_ids):
         return vehicle_track_ids[vehicle_idx]
     else:
         return -1, -1, -1, -1, -1
+    def csv(speedres, output_path):
+        with open(output_path, 'w') as f:
+            f.write('{},{},{}\n'.format('frame_nmr', 'vehicle_id', 'speed', ))
+            for frame_nmr in speedres.keys():
+                for track_id in speedres[frame_nmr].keys():
+                    print(speedres[frame_nmr][track_id])
+                    if 'vehicle' in speedres[frame_nmr][track_id].keys():
+                        f.write('{},{},{}\n'.format(frame_nmr, track_id,
+                                                    '{}'.format(speedres[frame_nmr][track_id]['vehicle']['speed'])))
+            f.close()
+
+def estimatedSpeed(location1, location2):
+    """
+      Calculates the vehicle speed.
+
+      Args:
+          location1: The starting position of the center of the bbox in the prev frame
+          location2: The position of the same point in the next frame
+
+      Returns:
+          speed: It returns the speed of the vehicle
+      """
+    # Euclidean distance formula
+    d_pixel = math.sqrt(math.pow(location2[0] - location1[0], 2) + math.pow(location2[1] - location1[1], 2))
+    # setting the pixels per meter
+    ppm = 4 # This value could me made dynamic depending on how close the object is from the camera
+    d_meters = d_pixel/ppm
+    time_constant = 15*3.6
+
+    speed = (d_meters * time_constant)/100
+    return int(speed)
+
+palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
+def get_class_color(cls):
+    """
+    Simple function that adds fixed color depending on the class
+    """
+    if cls == 'car':
+        color = (204, 51, 0)
+    elif cls == 'truck':
+        color = (22,82,17)
+    elif cls == 'motorbike':
+        color = (255, 0, 85)
+    else:
+        color = [int((p * (2 ** 2 - 14 + 1)) % 255) for p in palette]
+    return tuple(color)
+    
