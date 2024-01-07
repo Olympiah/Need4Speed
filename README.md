@@ -1,8 +1,8 @@
 # EYESPEED
 This is a real-time vehicle speed estimation system built using Object Detection and Object Tracking 
 
-<img src="screenshot(480).png" alt="Screenshot of the application" width="500"/>
-<img src="screenshot(469).png" alt="Screenshot of the application" width="500"/>
+<img src="images/screenshot1.png" alt="Screenshot of the application" width="500"/>
+<img src="images/screenshot2.png" alt="Screenshot of the application" width="500"/>
 
 ## Overview
 This project was divided into 4 main parts i.e.
@@ -10,6 +10,8 @@ This project was divided into 4 main parts i.e.
 - Vehicle Tracking
 - License Plate Detection and Recognition
 - Speed Estimation
+
+<img src="images/alg.drawio.png" alt="Algorithm" width="600"/>
 
 Vehicle Detection
 
@@ -55,10 +57,20 @@ The tracking object from the tracker was also useful in speed estimation. The ou
   
    License Plate Recognition - https://universe.roboflow.com/roboflow-universe-projects/license-plate-recognition-rxg4e/dataset/4
   
-   Vehicle Detection -
+   Vehicle Detection - https://universe.roboflow.com/vehiclecounting-fqj6o/vehicledetection-mptvy
   
    Speed Testing Dataset - https://slobodan.ucg.ac.me/science/vs13
   
    Traffic videos in Kenyan roads - https://drive.google.com/drive/folders/1-7KyU6zxIZAVlSHIgbPYHl3L3GOn1Lh_?usp=drive_link
 
   ## Screenshot
+  
+<img src="images/speed.png" alt="Speed" width="600"/>
+
+<img src="images/speedres.png" alt="Algorithm" width="600"/>
+
+<img src="images/license.png" alt="Algorithm" width="600"/>
+
+# How to run the Project
+
+'streamlit run app.py'
