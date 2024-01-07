@@ -80,6 +80,8 @@ Step 1 : Clone the repository `git clone "https..."`
 
 Step 2 :  Run `pip install -r requirements.txt`
 
-Step 3 : Run `streamlit run app.py`
+Step 3 : Create a directory in root called *data* and upload the test video (vid2.mp4) here.
+
+Step 4 : Run `streamlit run app.py`
 
 **NOTE: UPLOADING OF VIDEO DATA FOR TEST PROVED TO BE DIFFICULT BUT I HAVE PROVIDED LINKS IN THE DATA SECTION**
