@@ -13,6 +13,8 @@ This project was divided into 4 main parts i.e.
 
 <img src="images/alg.drawio.png" alt="Algorithm" width="600"/>
 
+The test video used in this project (vid2.mp4) is in the traffic videos folder drive provided below.
+
 Vehicle Detection
 
   This stage involved the use of Yolov8 trained on custom data. The output was detection details of the vehicles in the form of a list i.e. bounding boxes, confidence, class ids.
@@ -62,6 +64,7 @@ The tracking object from the tracker was also useful in speed estimation. The ou
    Speed Testing Dataset - https://slobodan.ucg.ac.me/science/vs13
   
    Traffic videos in Kenyan roads - https://drive.google.com/drive/folders/1-7KyU6zxIZAVlSHIgbPYHl3L3GOn1Lh_?usp=drive_link
+  
 
   ## Screenshot
   
