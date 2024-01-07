@@ -3,7 +3,10 @@ from ultralytics import YOLO
 import cv2
 import random
 import os
+# import numpy as np
 from deep_sort_realtime.deepsort_tracker import DeepSort
+
+# from sort.sort import *
 
 # importing the DeepSort class from the deep-sort_tracker module, and
 # initializing the DeepSort object with the max_age parameter set to 50.
@@ -47,13 +50,19 @@ model = YOLO(model_path)
 
 tracker = DeepSort(max_age=50)
 
+# test tracker with sort
+# mot_tracker = Sort()
+
 # list containing 10 completely random colors
 colors = [(random.randint(0, 225), random.randint(0, 225), random.randint(0, 225)) for j in range(10)]
 
-while True:
+frame_nmr = -1
+
+ret = True
+while ret and frame_nmr < 10:
     # getting start time
     start = datetime.datetime.now()
-
+    frame_nmr += 1
     # reading frames from video
     ret, frame = cap.read()
 
@@ -106,7 +115,10 @@ while True:
 
     # update the tracker with the new detections
     tracks = tracker.update_tracks(detections, frame=frame)
+
+    # test for sort tracker
     # tracker.update(frame, detections)
+    track_ids = mot_tracker.update(np.asarray(detections_))
 
     # loop over the tracks
     for track in tracks:

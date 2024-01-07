@@ -1,12 +1,19 @@
 # EYESPEED
 This is a real-time vehicle speed estimation system built using Object Detection and Object Tracking 
 
+<img src="images/Screenshot1.png" alt="Screenshot of the application" width="500"/>
+<img src="images/Screenshot2.png" alt="Screenshot of the application" width="500"/>
+
 ## Overview
 This project was divided into 4 main parts i.e.
 - Vehicle Detection
 - Vehicle Tracking
 - License Plate Detection and Recognition
 - Speed Estimation
+
+<img src="images/alg.drawio.png" alt="Algorithm" width="600"/>
+
+The test video used in this project (vid2.mp4) is in the traffic videos folder drive provided below.
 
 Vehicle Detection
 
@@ -52,16 +59,29 @@ The tracking object from the tracker was also useful in speed estimation. The ou
   
    License Plate Recognition - https://universe.roboflow.com/roboflow-universe-projects/license-plate-recognition-rxg4e/dataset/4
   
-   Vehicle Detection -
+   Vehicle Detection - https://universe.roboflow.com/vehiclecounting-fqj6o/vehicledetection-mptvy
   
    Speed Testing Dataset - https://slobodan.ucg.ac.me/science/vs13
   
    Traffic videos in Kenyan roads - https://drive.google.com/drive/folders/1-7KyU6zxIZAVlSHIgbPYHl3L3GOn1Lh_?usp=drive_link
-
-  ## Screenshots
-
-  
   
 
+  ## Screenshot
+  
+<img src="images/speed.png" alt="Speed" width="600"/>
 
-##
+<img src="images/speedres.png" alt="Algorithm" width="600"/>
+
+<img src="images/license.png" alt="Algorithm" width="600"/>
+
+# How to run the Project
+
+Step 1 : Clone the repository `git clone "https..."`
+
+Step 2 :  Run `pip install -r requirements.txt`
+
+Step 3 : Create a directory in root called *data* and upload the test video (vid2.mp4) here.
+
+Step 4 : Run `streamlit run app.py`
+
+**NOTE: UPLOADING OF VIDEO DATA FOR TEST PROVED TO BE DIFFICULT BUT I HAVE PROVIDED LINKS IN THE DATA SECTION**
